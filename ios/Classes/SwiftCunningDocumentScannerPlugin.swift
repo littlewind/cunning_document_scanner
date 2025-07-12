@@ -34,14 +34,21 @@ public class SwiftCunningDocumentScannerPlugin: NSObject, FlutterPlugin, VNDocum
   }
 
 
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
+    func getSavedDirectoryPath(for location: CunningScannerSavedLocation) -> URL {
+        let directory: FileManager.SearchPathDirectory
+        switch location {
+            case .cachesDirectory:
+                directory = .cachesDirectory
+            case .documentDirectory:
+                directory = .documentDirectory
+        }
+        let paths = FileManager.default.urls(for: directory, in: .userDomainMask)
+        let directoryPath = paths[0]
+        return directoryPath
     }
 
     public func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        let tempDirPath = self.getDocumentsDirectory()
+        let tempDirPath = self.getSavedDirectoryPath(for: scannerOptions.savedLocation)
         let currentDateTime = Date()
         let df = DateFormatter()
         df.dateFormat = "yyyyMMdd-HHmmss"
