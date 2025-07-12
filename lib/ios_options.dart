@@ -7,6 +7,14 @@ enum IosImageFormat {
   png,
 }
 
+enum IosImagesSavedLocation {
+  /// Indicates the scanned images should be saved to app's caches directory.
+  cachesDirectory,
+
+  /// Indicates the scanned images should be saved to the app's document directory.
+  documentDirectory,
+}
+
 /// Different options that modify the behavior of the document scanner on iOS.
 ///
 /// The [imageFormat] specifies the format of the output image file. Available
@@ -22,6 +30,7 @@ final class IosScannerOptions {
   const IosScannerOptions({
     this.imageFormat = IosImageFormat.png,
     this.jpgCompressionQuality = 1.0,
+    this.savedLocation = IosImagesSavedLocation.cachesDirectory,
   });
 
   final IosImageFormat imageFormat;
@@ -34,4 +43,6 @@ final class IosScannerOptions {
   /// [jpgCompressionQuality] only has an effect if the [imageFormat] is set to
   /// [IosImageFormat.jpeg] and is ignored otherwise.
   final double jpgCompressionQuality;
+
+  final IosImagesSavedLocation savedLocation;
 }
